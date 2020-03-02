@@ -68,7 +68,11 @@ project(":desktop") {
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
-        implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"  // This is for the TexturePacker class
+        // This is for the TexturePacker class
+        implementation("com.badlogicgames.gdx:gdx-tools:$gdxVersion") {
+            exclude group: 'com.badlogicgames.gdx', module: 'gdx-backend-lwjgl'
+        }
+
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion" // This iss so the JAR works with Kotlin
 
         implementation 'com.github.MinnDevelopment:java-discord-rpc:v2.0.1'
