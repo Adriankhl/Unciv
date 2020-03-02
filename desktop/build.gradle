@@ -48,11 +48,11 @@ for(platform in PackrConfig.Platform.values()) {
     def platformName = platform.toString()
     task "packr${platformName}"(dependsOn: dist) {
 
-        def jarFile = "desktop/build/libs/${appName}.jar".toString()
+        def jarFile = "D:/git/Unciv/desktop/build/libs/${appName}.jar".toString()
         PackrConfig config = new PackrConfig()
         config.platform = platform
 
-        def forTravis = true // change to false for local build
+        def forTravis = false // change to false for local build
         if(forTravis) {
             if (platform == PackrConfig.Platform.Linux32 || platform == PackrConfig.Platform.Linux64)
                 config.jdk = System.env.'JAVA_HOME'
@@ -63,7 +63,7 @@ for(platform in PackrConfig.Platform.values()) {
         }
         else {
             // for my computer
-            config.jdk = "C:/Users/LENOVO/Downloads/java-1.8.0-openjdk-1.8.0.232-1.b09.ojdkbuild.windows.x86_64.zip"
+            config.jdk = "D:/Program/Openjdk/OpenJDK8U-jdk_x64_windows_openj9_8u242b08_openj9-0.18.1.zip"
         }
         config.executable = "Unciv"
         config.classpath = Arrays.asList(jarFile)
