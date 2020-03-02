@@ -27,7 +27,6 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = '1.0.1'
@@ -173,6 +172,3 @@ project(":core") {
         }
     }}
 
-tasks.eclipse.doLast {
-    delete ".project"
-}
