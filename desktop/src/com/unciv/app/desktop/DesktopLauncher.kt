@@ -1,8 +1,5 @@
 package com.unciv.app.desktop
 
-import club.minnced.discord.rpc.DiscordEventHandlers
-import club.minnced.discord.rpc.DiscordRPC
-import club.minnced.discord.rpc.DiscordRichPresence
 import com.badlogic.gdx.Files
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
@@ -31,9 +28,6 @@ internal object DesktopLauncher {
         val versionFromJar = DesktopLauncher.javaClass.`package`.specificationVersion
 
         val game = UncivGame(if (versionFromJar != null) versionFromJar else "Desktop", null){exitProcess(0)}
-
-        if(!RaspberryPiDetector.isRaspberryPi()) // No discord RPC for Raspberry Pi, see https://github.com/yairm210/Unciv/issues/1624
-            tryActivateDiscord(game)
 
         Lwjgl3Application(game, config)
     }
@@ -68,36 +62,5 @@ internal object DesktopLauncher {
 
         val texturePackingTime = System.currentTimeMillis() - startTime
         println("Packing textures - "+texturePackingTime+"ms")
-    }
-
-    private fun tryActivateDiscord(game: UncivGame) {
-
-        try {
-            val handlers = DiscordEventHandlers()
-            DiscordRPC.INSTANCE.Discord_Initialize("647066573147996161", handlers, true, null)
-
-            Runtime.getRuntime().addShutdownHook(Thread { DiscordRPC.INSTANCE.Discord_Shutdown() })
-
-            thread {
-                while (true) {
-                    try {
-                        updateRpc(game)
-                    }catch (ex:Exception){}
-                    Thread.sleep(1000)
-                }
-            }
-        } catch (ex: Exception) {
-            print("Could not initialize Discord")
-        }
-    }
-
-    fun updateRpc(game: UncivGame) {
-        if(!game.isInitialized) return
-        val presence = DiscordRichPresence()
-        val currentPlayerCiv = game.gameInfo.getCurrentPlayerCivilization()
-        presence.details=currentPlayerCiv.getTranslatedNation().getLeaderDisplayName().tr()
-        presence.largeImageKey = "logo" // The actual image is uploaded to the discord app / applications webpage
-        presence.largeImageText ="Turn".tr()+" " + currentPlayerCiv.gameInfo.turns
-        DiscordRPC.INSTANCE.Discord_UpdatePresence(presence);
     }
 }
