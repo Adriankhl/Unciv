@@ -13,10 +13,4 @@ sourceSets {
             srcDir 'src'
         }
     }
-    
-    
-}
-
-eclipse.project {
-    name = appName + "-tests"
 }
