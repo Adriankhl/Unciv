@@ -1,3 +1,69 @@
+## 3.6.8
+
+Loads of stuff by Jack Rainy!
+
+- UI improvements
+- Energy saving for music and sound
+- Allow selection of non-buildable items
+- Sort overview resources by name and amount
+- Turn number of trades changes with game speed
+- Filter for the custom maps
+- Ice is impassible for all except submarines
+
+Translation updates
+
+
+## 3.6.7
+
+By Reversi:
+- Fixed city buy/sell exploits
+- Snow, Ice, Atoll & Map Generation
+- Borders made of oriented triangles rather than circles
+
+By Jack Rainy:
+- Major translation changes
+- Minor UI changes
+- Brought specific things more in line with Civ V
+
+Starting locations work again =)
+
+Translation updates
+
+## 3.6.6
+
+Resolved #2071 - AI will wait 20 turns between proposing research agreements if declined
+
+Ranking by culture is by number of adopted policies
+
+Player cannot nuke a civilization it has a peace treaty with - by EdinCitaku
+
+Resolved #2074 - Fixed domination victory
+
+Resolved #2040 - Moved the turn counter on the top bar to the second level, to even out both levels
+Water units can no longer see over hills etc.
+
+By Jack Rainy:
+- Keshiks are ranged units
+- Distinct color for Korea
+
+Translation updates
+
+## 3.6.5
+
+Resolved #2065 - Units can no longer sleep while fortified - by Vladimir Tanakov
+
+Resolved #2033 - Happiness from tiles is always considered correctly in regards to food consumption
+
+Resolved #2035 - Strategic resources are affected by map generation parameters
+
+Resolved #2055 - cities once again bombard melee units
+
+Fixed rare crash when diplomacy values change while ending the turn
+
+UI updates - by lishaoxia1985
+
+Translation updates
+
 ## 3.6.4
 
 By Jack Rainy:

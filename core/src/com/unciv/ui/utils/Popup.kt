@@ -39,9 +39,7 @@ open class Popup(val screen: CameraStageBaseScreen): Table(CameraStageBaseScreen
 
     open fun close() {
         remove()
-        if (screen.popups.isNotEmpty()) {
-            screen.popups[0].isVisible = true;
-        }
+        if (screen.popups.isNotEmpty()) screen.popups[0].isVisible = true
     }
 
     fun addGoodSizedLabel(text: String, size:Int=18): Cell<Label> {
@@ -69,7 +67,8 @@ open class Popup(val screen: CameraStageBaseScreen): Table(CameraStageBaseScreen
 }
 
 fun CameraStageBaseScreen.hasOpenPopups(): Boolean = stage.actors.any { it is Popup && it.isVisible }
+fun CameraStageBaseScreen.closeAllPopups() { for (popup in popups) popup.close() }
 
 val CameraStageBaseScreen.popups: List<Popup>
-    get() = stage.actors.filter{ it is Popup }.map{ it as Popup }
+    get() = stage.actors.filterIsInstance<Popup>()
 
