@@ -1,8 +1,5 @@
 package com.unciv.app.desktop
 
-import club.minnced.discord.rpc.DiscordEventHandlers
-import club.minnced.discord.rpc.DiscordRPC
-import club.minnced.discord.rpc.DiscordRichPresence
 import com.badlogic.gdx.Files
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
@@ -18,7 +15,6 @@ import kotlin.system.exitProcess
 
 
 internal object DesktopLauncher {
-    private var discordTimer: Timer? = null
 
     @JvmStatic
     fun main(arg: Array<String>) {
@@ -33,10 +29,7 @@ internal object DesktopLauncher {
 
         val versionFromJar = DesktopLauncher.javaClass.`package`.specificationVersion ?: "Desktop"
 
-        val game = UncivGame ( versionFromJar, null, { exitProcess(0) }, { discordTimer?.cancel() } )
-
-        if(!RaspberryPiDetector.isRaspberryPi()) // No discord RPC for Raspberry Pi, see https://github.com/yairm210/Unciv/issues/1624
-            tryActivateDiscord(game)
+        val game = UncivGame ( versionFromJar, null, { exitProcess(0) } )
 
         Lwjgl3Application(game, config)
     }
@@ -87,32 +80,5 @@ internal object DesktopLauncher {
             if (!File(input).listTree().any { it.extension in listOf("png","jpg","jpeg") && it.lastModified() > atlasModTime }) return
         }
         TexturePacker.process(settings, input, output, packFileName )
-    }
-
-    private fun tryActivateDiscord(game: UncivGame) {
-        try {
-            val handlers = DiscordEventHandlers()
-            DiscordRPC.INSTANCE.Discord_Initialize("647066573147996161", handlers, true, null)
-
-            Runtime.getRuntime().addShutdownHook(Thread { DiscordRPC.INSTANCE.Discord_Shutdown() })
-
-            discordTimer = timer(name = "Discord", daemon = true, period = 1000) {
-                try {
-                    updateRpc(game)
-                } catch (ex:Exception){}
-            }
-        } catch (ex: Exception) {
-            println("Could not initialize Discord")
-        }
-    }
-
-    private fun updateRpc(game: UncivGame) {
-        if(!game.isInitialized) return
-        val presence = DiscordRichPresence()
-        val currentPlayerCiv = game.gameInfo.getCurrentPlayerCivilization()
-        presence.details=currentPlayerCiv.nation.getLeaderDisplayName().tr()
-        presence.largeImageKey = "logo" // The actual image is uploaded to the discord app / applications webpage
-        presence.largeImageText ="Turn".tr()+" " + currentPlayerCiv.gameInfo.turns
-        DiscordRPC.INSTANCE.Discord_UpdatePresence(presence)
     }
 }
