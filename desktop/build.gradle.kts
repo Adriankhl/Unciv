@@ -23,7 +23,6 @@ sourceSets {
 
 val mainClassName = "com.unciv.app.desktop.DesktopLauncher"
 val assetsDir = file("../android/assets")
-val discordDir = file("discord_rpc")
 val deployFolder = file("../deploy")
 
 tasks.register<JavaExec>("run") {
@@ -58,7 +57,6 @@ tasks.register<Jar>("dist") { // Compiles the jar file
     from({ configurations.compileClasspath.get().resolve().map { if (it.isDirectory) it else zipTree(it) } })
     from(files(assetsDir))
     // This is for the .dll and .so files to make the Discord RPC work on all desktops
-    from(files(discordDir))
     archiveFileName.set("${BuildConfig.appName}.jar")
 
     manifest {

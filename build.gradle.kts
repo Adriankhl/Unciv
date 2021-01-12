@@ -20,8 +20,6 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${com.unciv.build.BuildConfig.kotlinVersion}")
         classpath("de.richsource.gradle.plugins:gwt-gradle-plugin:0.6")
-        classpath("com.android.tools.build:gradle:4.1.3")
-        classpath("com.mobidevelop.robovm:robovm-gradle-plugin:2.3.1")
 
         // This is for wrapping the .jar file into a standalone executable
         classpath("com.github.anuken:packr:-SNAPSHOT")
@@ -71,37 +69,6 @@ project(":desktop") {
     }
 
 }
-
-project(":android") {
-    apply(plugin = "com.android.application")
-    apply(plugin = "kotlin-android")
-
-    val natives by configurations.creating
-
-    dependencies {
-        "implementation"(project(":core"))
-        "implementation"("com.badlogicgames.gdx:gdx-backend-android:$gdxVersion")
-        natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi")
-        natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a")
-        natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a")
-        natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86")
-        natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64")
-    }
-}
-
-project(":ios") {
-    apply(plugin = "kotlin")
-    apply(plugin = "robovm")
-
-    dependencies {
-        "implementation"(project(":core"))
-        "implementation"("com.mobidevelop.robovm:robovm-rt:$roboVMVersion")
-        "implementation"("com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion")
-        "implementation"("com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion")
-        "implementation"("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios")
-    }
-}
-
 
 project(":core") {
     apply(plugin = "kotlin")
